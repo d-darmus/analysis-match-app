@@ -102,17 +102,15 @@ class _CalculateBox extends State<CalculateBox> {
     for(int i=0;i<pointlist.length;i++){
       if(i < 20){
         // duceになってない
-        if(0==(i)%4 || (0==(i-1)%4)){
+        if( !(0==(i)%4 || (0==(i-1)%4)) ){
           if(1 == pointlist[i]){
-            // サービス時に得点している
             _tokutenInReceiveCount++;
           }
         }
       } else {
         // duceになってる
-        if(0==i%2){
+        if( !(0==i%2) ){
           if(1 == pointlist[i]){
-            // サービス時に得点している
             _tokutenInReceiveCount++;
           }
         }
