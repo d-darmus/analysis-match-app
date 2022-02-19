@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:dev_analysis/Tab1.dart';
 import 'package:dev_analysis/Tab2.dart';
+import 'package:dev_analysis/tab3/Tab3.dart';
 
 void main() {
   runApp(const MyApp());
@@ -60,9 +61,11 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
   }
   Widget _createTab(Tab tab){
     if(tabs[0] == tab){
-      return Tab1();
-    } else {
+      return Tab3();
+    } else if(tabs[1] == tab){
       return Tab2();
+    } else {
+      return Tab3();
     }
   }
 }
