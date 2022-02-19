@@ -1,5 +1,6 @@
 
 import 'package:dev_analysis/db/Setting.dart';
+import 'package:dev_analysis/tab3/CalculateMatchBox.dart';
 import 'package:flutter/material.dart';
 import 'package:dev_analysis/tab3/pointBox.dart';
 import 'package:dev_analysis/tab3/PointHistory.dart';
@@ -16,6 +17,7 @@ class _Tab3 extends State<Tab3> {
   List<String> mypoint = ['0'];
   List<String> yourpoint = ['0'];
   List<int> _pointlist = [];
+  List<List<int>> _pointlistHistory = [];
   List<int> customCount1 = [0,0,0,0];
   List<int> customCount2 = [0,0,0,0];
   List<String> customButton1 = ['button1','button2','button3','button4'];
@@ -68,6 +70,7 @@ class _Tab3 extends State<Tab3> {
           Text(this.customButton2[1]+'回数：'+this.customCount2[1].toString(),style:TextStyle(color:Colors.red)),
           Text(this.customButton2[2]+'回数：'+this.customCount2[2].toString(),style:TextStyle(color:Colors.red)),
           Text(this.customButton2[3]+'回数：'+this.customCount2[3].toString(),style:TextStyle(color:Colors.red)),
+          CalculateMatchBox(this._pointlistHistory),
         ],
       )
     );
@@ -200,6 +203,9 @@ class _Tab3 extends State<Tab3> {
         setState((){
           this.mypoint.add('0');
           this.yourpoint.add('0');
+          List<int> _list = [];
+          _list.addAll(this._pointlist);
+          this._pointlistHistory.add(_list);
           this._pointlist.clear();
           for(int i = 0; i<this.customCount1.length; i++){
             this.customCount1[i] = 0;

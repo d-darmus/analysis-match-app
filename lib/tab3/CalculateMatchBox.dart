@@ -1,21 +1,21 @@
 import 'package:flutter/material.dart';
 
-class CalculateBox extends StatefulWidget {
-  List<int> pointlist = [];
-  CalculateBox(List<int> list){
+class CalculateMatchBox extends StatefulWidget {
+  List<List<int>> pointlist = [];
+  CalculateMatchBox(List<List<int>> list){
     this.pointlist = list;
   }
 
   @override
   State<StatefulWidget> createState(){
-    return _CalculateBox(this.pointlist);
+    return _CalculateMatchBox(this.pointlist);
   }
 }
 
-class _CalculateBox extends State<CalculateBox> {
-  List<int> pointlist = [];// 親ウィジェットからインプット
+class _CalculateMatchBox extends State<CalculateMatchBox> {
+  List<List<int>> pointlist = [];// 親ウィジェットからインプット
   int _radioType = 1;
-  _CalculateBox(List<int> list){
+  _CalculateMatchBox(List<List<int>> list){
     this.pointlist = list;
   }
 
@@ -26,15 +26,49 @@ class _CalculateBox extends State<CalculateBox> {
     String _serviceRatetStr = "";
     String _receiveRateStr = "";
     if(1==_radioType){
-      _serviceCountStr = serviceCount(this.pointlist).toString();
-      _serviceRatetStr = scoreRateService(this.pointlist).toString();
-      _receiveCountStr = receiveCount(this.pointlist).toString();
-      _receiveRateStr = scoreRateReceive(this.pointlist).toString();
+      int sCount = 0;
+      double sRate = 0;
+      int rCount = 0;
+      double rRate = 0;
+      for(int i = 0; i<this.pointlist.length; i++){
+        if(0 == i%2){
+          sCount += serviceCount(this.pointlist[i]);
+          sRate += scoreRateService(this.pointlist[i]);
+          rCount += receiveCount(this.pointlist[i]);
+          rRate += scoreRateReceive(this.pointlist[i]);
+        }else{
+          sCount += receiveCount(this.pointlist[i]);
+          sRate += scoreRateReceive(this.pointlist[i]);
+          rCount += serviceCount(this.pointlist[i]);
+          rRate += scoreRateService(this.pointlist[i]);
+        }
+      }
+      _serviceCountStr = sCount.toString();
+      _serviceRatetStr = (sRate/this.pointlist.length).toString();
+      _receiveCountStr = rCount.toString();
+      _receiveRateStr = (rRate/this.pointlist.length).toString();
     } else {
-      _serviceCountStr = receiveCount(this.pointlist).toString();
-      _serviceRatetStr = scoreRateReceive(this.pointlist).toString();
-      _receiveCountStr = serviceCount(this.pointlist).toString();
-      _receiveRateStr = scoreRateService(this.pointlist).toString();
+      int sCount = 0;
+      double sRate = 0;
+      int rCount = 0;
+      double rRate = 0;
+      for(int i = 0; i<this.pointlist.length; i++){
+        if(0 == i%2){
+          sCount += receiveCount(this.pointlist[i]);
+          sRate += scoreRateReceive(this.pointlist[i]);
+          rCount += serviceCount(this.pointlist[i]);
+          rRate += scoreRateService(this.pointlist[i]);
+        }else{
+          sCount += serviceCount(this.pointlist[i]);
+          sRate += scoreRateService(this.pointlist[i]);
+          rCount += receiveCount(this.pointlist[i]);
+          rRate += scoreRateReceive(this.pointlist[i]);
+        }
+      }
+      _serviceCountStr = sCount.toString();
+      _serviceRatetStr = (sRate/this.pointlist.length).toString();
+      _receiveCountStr = rCount.toString();
+      _receiveRateStr = (rRate/this.pointlist.length).toString();
     }
 
     return Column(
@@ -59,10 +93,10 @@ class _CalculateBox extends State<CalculateBox> {
             Text('相手'),
           ],
         ),
-        Text( 'サーブ数：'+_serviceCountStr),
-        Text( 'サーブ得点率：'+_serviceRatetStr+'%' ),
-        Text( 'レシーブ数：'+_receiveCountStr ),
-        Text( 'レシーブ得点率：'+_receiveRateStr+'%' ),
+        Text( '総サーブ数：'+_serviceCountStr),
+        Text( '総サーブ得点率：'+_serviceRatetStr+'%' ),
+        Text( '総レシーブ数：'+_receiveCountStr ),
+        Text( '総レシーブ得点率：'+_receiveRateStr+'%' ),
       ],
     );
   }
